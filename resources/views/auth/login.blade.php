@@ -31,21 +31,24 @@
                 <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
             </label>
 
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('register') }}">
-                {{ __('Not registered yet?') }}
-            </a>
-        </div>
-
-        <div class="flex flex-col items-center my-4 gap-2">
-            <x-primary-button class="flex w-full justify-center text-center ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-
             @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
+        </div>
+        
+        <div class="flex flex-col items-center my-4 gap-2">
+            <x-primary-button class="flex w-full justify-center text-center ms-3">
+                {{ __('Log in') }}
+            </x-primary-button>
+            
+            <div class="flex flex-row items-center">
+                <p class="text-sm text-gray-600 dark:text-gray-400  rounded-md">Don't have an account?&nbsp;</p>
+                <a class="font-semibold text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('register') }}">
+                    {{ __('Register') }}
+                </a>
+            </div>
         </div>
     </form>
 </x-guest-layout>

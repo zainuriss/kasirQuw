@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.select2-container .select2-selection--single {
+    height: calc(2.25rem + 2px); /* Sesuaikan dengan tinggi input lainnya */
+    padding: 0.375rem 0.75rem;  /* Sama dengan padding input */
+    font-size: 1rem;           /* Sesuaikan ukuran font */
+    line-height: 1.5;          /* Sesuaikan dengan input lainnya */
+    border: 1px solid #ced4da; /* Border default */
+    border-radius: 0.375rem;   /* Border radius */
+    background-color: #fff;    /* Background */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #495057;           /* Warna teks */
+    padding-left: 0;          /* Padding dalam */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: calc(2.25rem + 2px); /* Sesuaikan tinggi panah dropdown */
+}
