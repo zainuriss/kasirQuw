@@ -2,6 +2,7 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf 
         <div class="grid grid-cols-2 items-center gap-2">
+                <x-text-input id="usertype" type="hidden" name="usertype" value="admin"/>
                 <div>
                     <x-input-label for="nama" :value="__('Nama')" />
                     <x-text-input id="nama" class=" mt-1 w-full" type="text" name="nama" :value="old('nama')" required autofocus autocomplete="nama" />
@@ -43,12 +44,11 @@
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
                                     <div class="">
-                                            <x-input-label for="password" :value="__('Password')" />
-
-                                            <x-text-input id="password" class=" mt-1 w-full"
-                                        type="password"
-                                        name="password"
-                                        required autocomplete="new-password" />
+                                        <x-input-label for="password" :value="__('Password')" />
+                                        <x-text-input id="password" class=" mt-1 w-full"
+                                            type="password"
+                                            name="password"
+                                            required autocomplete="new-password" />
 
                                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                     </div>
@@ -56,7 +56,6 @@
                                     <!-- Confirm Password -->
                                     <div class="">
                                         <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-                                        
                                         <x-text-input id="password_confirmation" class=" mt-1 w-full"
                                         type="password"
                                         name="password_confirmation" required autocomplete="new-password" />

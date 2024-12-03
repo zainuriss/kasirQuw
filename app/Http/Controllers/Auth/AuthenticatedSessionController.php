@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -22,18 +24,36 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
+
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $credentials = $request->only('email', 'password');
 
-        $request->session()->regenerate();
-
-        if ($request->user()->role === 'admin') {
-            return redirect()->intended(route('admin.dashboard'));
+        // Cek apakah email terdaftar
+        $user = User::where('email', $credentials['email'])->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Email belum terdaftar.');
         }
 
-        return redirect()->intended(route('dashboard'));
+        // Cek apakah password benar
+        if (!Hash::check($credentials['password'], $user->password)) {
+            return redirect()->back()->with('error', 'Password salah.');
+        }
+
+        // Lakukan login jika valid
+        Auth::login($user);
+
+        // Regenerasi session untuk keamanan
+        $request->session()->regenerate();
+
+        // Redirect berdasarkan usertype
+        if ($user->usertype === 'petugas') {
+            return redirect('dashboard')->with('success', 'Login berhasil!');
+        }
+
+        return redirect()->intended(route('admin.dashboard'))->with('success', 'Login berhasil!');
     }
+
 
     /**
      * Destroy an authenticated session.

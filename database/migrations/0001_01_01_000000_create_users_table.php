@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('username');
             $table->string('password');
-            $table->enum('role', ['admin', 'petugas'])->default('petugas');
+            $table->enum('usertype', ['admin', 'petugas'])->default('petugas');
             $table->text('alamat');
             $table->string('nomor_hp', 15);
             $table->string('status', 11);
