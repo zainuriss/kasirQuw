@@ -15,6 +15,12 @@
                     <x-nav-link :href="Auth::user()->usertype == 'admin' ? route('admin.dashboard') : route('dashboard')" :active="Auth::user()->usertype == 'admin' ? request()->routeIs('admin.dashboard') : request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    
+                    @if (Auth::user()->usertype == 'admin')
+                        <x-nav-link :href="route('admin.petugas')" :active="request()->routeIs('admin.petugas')">
+                            {{ __('Petugas') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -67,9 +73,15 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="Auth::user()->usertype == 'admin' ? route('admin.dashboard') : route('dashboard')" :active="Auth::user()->usertype == 'admin' ? request()->routeIs('admin.dashboard') : request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if (Auth::user()->usertype == 'admin')
+            <x-responsive-nav-link :href="route('admin.petugas')" :active="request()->routeIs('admin.petugas')">
+                {{ __('Petugas') }}
+            </x-responsive-nav-link>
+        @endif
         </div>
 
         <!-- Responsive Settings Options -->

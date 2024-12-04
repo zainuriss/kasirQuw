@@ -32,12 +32,12 @@ class AuthenticatedSessionController extends Controller
         // Cek apakah email terdaftar
         $user = User::where('email', $credentials['email'])->first();
         if (!$user) {
-            return redirect()->back()->with('error', 'Email belum terdaftar.');
+            return redirect()->back()->with('error', 'Email belum terdaftar.')->withInput();
         }
 
         // Cek apakah password benar
         if (!Hash::check($credentials['password'], $user->password)) {
-            return redirect()->back()->with('error', 'Password salah.');
+            return redirect()->back()->with('error', 'Password salah.')->withInput();
         }
 
         // Lakukan login jika valid
