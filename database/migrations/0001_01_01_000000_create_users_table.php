@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('password');
             $table->enum('usertype', ['admin', 'petugas'])->default('petugas');
             $table->text('alamat');
-            $table->string('nomor_hp', 15);
+            $table->string('nomor_hp');
             $table->string('status', 11);
             $table->string('email')->unique();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

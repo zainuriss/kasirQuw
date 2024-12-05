@@ -13,9 +13,13 @@ Route::get('/dashboard', [HomeController::class, 'userindex'])->middleware(['aut
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'admindex'])->middleware(['auth', 'verified'])->name('admin.dashboard');
-    Route::get('/petugas', [AdminController::class, 'petugasPage'])->name('admin.petugas');
-    Route::get('/tambah-petugas', [AdminController::class, 'inpetugas'])->name('admin.inpetugas');
-    Route::post('/tambah-petugas', [AdminController::class, 'addpetugas'])->name('admin.addpetugas');
+    Route::prefix('petugas')->group(function () {
+        Route::get('/', [AdminController::class, 'petugasPage'])->name('admin.petugas');
+        Route::get('/tambah-petugas', [AdminController::class, 'inpetugas'])->name('admin.inpetugas');
+        Route::post('/tambah-petugas', [AdminController::class, 'addpetugas'])->name('admin.addpetugas');
+        Route::get('/detail-petugas/{id}', [AdminController::class, 'detailpetugas'])->name('admin.detailpetugas');
+        Route::get('/delete-petugas/{id}', [AdminController::class, 'deletepetugas'])->name('admin.deletepetugas');
+    });
 });
 
 Route::middleware('auth')->group(function () {

@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(
-            UsersSeeder::class
+            UsersSeeder::class,
+            // PetugasSeeder::class,
         );
     }
 }

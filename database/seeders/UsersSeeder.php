@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -14,32 +15,49 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-        $userdata = [
-            [
-                'nama' => 'Kang Admin',
-                'username' => 'kangadmin',
-                'password' => Hash::make('kangadmin'),
-                'usertype' => 'admin',
-                'alamat' => 'Kota Gotham',
-                'nomor_hp' => '08123456789',
-                'status' => 'Belum Kawin',
-                'email' => 'kangadmin@admin.com',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Kang User',
-                'username' => 'kanguser',
-                'password' => Hash::make('kanguser'),
+        $faker = Factory::create('id_ID');
+        for($i = 0; $i < 10; $i++){
+            $data = [
+                'nama' => $nama = $faker->name(),
+                'username' => strtolower(str_replace(' ', '.', $nama)),
+                'password' => Hash::make('password'),
                 'usertype' => 'petugas',
-                'alamat' => 'Kota Gotham',
-                'nomor_hp' => '0812345678',
-                'status' => 'Belum Kawin',
-                'email' => 'kanguser@petugas.com',
+                'alamat' => $faker->address(),
+                'nomor_hp' => $faker->phoneNumber(),
+                'status' => $faker->randomElement(['Belum Kawin', 'Kawin']),
+                'email' => strtolower(str_replace(' ', '.', $nama)).'@petugas.com',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-        ];
-        User::insert($userdata);
+            ];
+            User::create($data);
+        }
+
+        // $userdata = [
+        //     [
+        //         'nama' => 'Kang Admin',
+        //         'username' => 'kangadmin',
+        //         'password' => Hash::make('kangadmin'),
+        //         'usertype' => 'admin',
+        //         'alamat' => 'Kota Gotham',
+        //         'nomor_hp' => '08123456789',
+        //         'status' => 'Belum Kawin',
+        //         'email' => 'kangadmin@admin.com',
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ],
+        //     [
+        //         'nama' => 'Kang User',
+        //         'username' => 'kanguser',
+        //         'password' => Hash::make('kanguser'),
+        //         'usertype' => 'petugas',
+        //         'alamat' => 'Kota Gotham',
+        //         'nomor_hp' => '0812345678',
+        //         'status' => 'Belum Kawin',
+        //         'email' => 'kanguser@petugas.com',
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ],
+        // ];
+        // User::insert($userdata);
     }
 }

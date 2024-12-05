@@ -13,13 +13,12 @@ $(document).ready(function() {
         },
         allowClear: true
     });
-});
 
-$(document).ready(function () {
     $('.myTable').DataTable({
         columnDefs: [{
-            targets: [4], 
-            searchable: false // Menonaktifkan fitur pencarian pada kolom ini
+            targets: [4],
+            orderable: false, 
+            searchable: false
         }]
     });
 });

@@ -11,9 +11,10 @@ class AdminController extends Controller
 {
     public function petugasPage(){
         $petugas = User::where('usertype', 'petugas')->get();
+        // $petugas = User::all();
         return view('admin.petugas', [
             'petugas' => $petugas,
-        ])->with(compact('petugas'));
+        ]);
     }
 
     public function inpetugas(){
@@ -43,6 +44,19 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        return redirect()->route('admin.petugas');
+    }
+
+    public function detailpetugas($id){
+        $petugas = User::find($id);
+        return view('admin.detail.detail-user', [
+            'petugas' => $petugas,
+        ]);
+    }
+
+    public function deletepetugas($id){
+        $petugas = User::find($id);
+        $petugas->delete();
         return redirect()->route('admin.petugas');
     }
 }

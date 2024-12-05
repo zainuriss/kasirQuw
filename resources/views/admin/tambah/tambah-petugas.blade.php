@@ -58,7 +58,6 @@
                                     <option value="" disabled hidden selected>Pilih Status</option>
                                     <option value="belum_kawin">Belum Kawin</option>
                                     <option value="kawin">Kawin</option>
-                                    <option value="cerai">Cerai</option>
                                 </select>
                                 <x-input-error :messages="$errors->get('status')" class="mt-2" />
                             </div>
