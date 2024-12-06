@@ -17,7 +17,9 @@
                     </x-nav-link>
                     
                     @if (Auth::user()->usertype == 'admin')
-                        <x-nav-link :href="route('admin.petugas')" :active="request()->routeIs('admin.petugas')">
+                        <x-nav-link 
+                            :href="route('admin.petugas.index')" 
+                            :active="request()->routeIs('admin.petugas.*')">
                             {{ __('Petugas') }}
                         </x-nav-link>
                     @endif
@@ -79,7 +81,7 @@
             </x-responsive-nav-link>
 
             @if (Auth::user()->usertype == 'admin')
-            <x-responsive-nav-link :href="route('admin.petugas')" :active="request()->routeIs('admin.petugas')">
+            <x-responsive-nav-link :href="route('admin.petugas.index')" :active="request()->routeIs('admin.petugas.*')">
                 {{ __('Petugas') }}
             </x-responsive-nav-link>
         @endif

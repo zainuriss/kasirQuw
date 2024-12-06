@@ -18,6 +18,8 @@
         
         <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
         <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -40,4 +42,23 @@
             </main>
         </div>
     </body>
+    <script>
+        function confirmDelete(event) {
+        event.preventDefault();
+        var form = event.target.form;
+        window.swal.fire({
+            title: 'Apakah anda yakin ingin menghapus data ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+        return false;
+    }
+    </script>
 </html>
