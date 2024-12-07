@@ -5,13 +5,12 @@
                 {{ __('Tambah Petugas') }}
             </h2>
             <div class="">
-                <a href="{{ route('admin.petugas.index') }}" 
-                   class="flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white py-2 px-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Kembali
-                </a>
+                <x-action-link-button
+                    route="{{ route('admin.petugas.index') }}"
+                    icon="heroicon-o-arrow-long-left"
+                    text="Kembali"
+                    gradient="from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800"
+                />
             </div>
         </div>
     </x-slot>

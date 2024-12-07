@@ -1,9 +1,17 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mb-4 flex justify-end">
+                <x-action-link-button
+                    route="{{ route('admin.petugas.show', $petugas->id) }}"
+                    icon="heroicon-o-arrow-long-left"
+                    text="Kembali"
+                    gradient="from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800"
+                />
+            </div>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form method="POST" action="{{ route('admin.petugas.update', $petugas->id) }}">
+                    <form id="edit-petugas-form" method="POST" action="{{ route('admin.petugas.update', $petugas->id) }}">
                         @csrf
                         <div class="grid grid-cols-2 gap-6">
                             {{-- <x-text-input id="usertype" type="hidden" name="usertype" :value="$petugas->usertype"/> --}}
@@ -60,13 +68,31 @@
                             </div>
                         </div>
                         <div class="flex justify-end">
-                            <x-primary-button class="mt-4">
+                            <x-primary-button class="mt-4" onclick="return confirmEditPetugas()">
                                 {{ __('Submit') }}
                             </x-primary-button>
                         </div>
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function confirmEditPetugas() {
+            Swal.fire({
+                title: 'Apakah anda yakin ingin mengedit data ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Gaskann!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('edit-petugas-form').submit();
+                }
+            });
+            return false;
+        }
+    </script>
 </x-app-layout>

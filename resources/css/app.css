@@ -26,13 +26,13 @@
     padding: 5px 10px;
     margin: 0 2px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 1rem;
     color: white;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     background-color: #0056b3;
-    border-radius: 5px;
+    border-radius: 1rem;
     color: white;
 }
 
@@ -40,7 +40,7 @@
 .dataTables_wrapper .dataTables_filter input {
     border: 1px solid #ddd;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 1rem;
     width: 200px;
     background-color: #1f2937;
 }
@@ -49,6 +49,12 @@
 .dataTables_wrapper .dataTables_length select {
     border: 1px solid #ddd;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 1rem;
     background-color: #1f2937;
+}
+
+::-webkit-scrollbar{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    display: none;
 }

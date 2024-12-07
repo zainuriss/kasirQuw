@@ -5,13 +5,16 @@
                 {{ __('Petugas Page') }}
             </h2>
             <div class="flex flex-row gap-2">
-                <a href="{{ route('admin.petugas.create') }}" class="flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white py-2 px-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
-                    <x-heroicon-s-plus class="w-5 h-5" />
-                    Tambah
-                </a>
-                <a href="{{ route('admin.petugas.trash') }}" class="flex items-center gap-2 rounded-lg bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white py-2 px-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
-                    <x-heroicon-s-trash class="w-5 h-5" />
-                </a>
+                <x-action-link-button
+                    route="{{ route('admin.petugas.create') }}"
+                    icon="heroicon-s-plus"
+                    text="Tambah"
+                />
+                <x-action-link-button
+                    route="{{ route('admin.petugas.trash') }}"
+                    icon="gmdi-restore-from-trash-s"
+                    gradient="from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800"
+                />
             </div>
         </div>
     </x-slot>
@@ -37,9 +40,21 @@
                                 <td>{{ $ptgs->nama }}</td>
                                 <td>{{ $ptgs->email }}</td>
                                 <td class="capitalize">{{ $ptgs->usertype }}</td>
-                                <td>
-                                    <a href="{{ route('admin.petugas.show', $ptgs->id) }}" class="bg-green-500 rounded py-1 px-2">Detail</a>
-                                    <a href="{{ route('admin.petugas.destroy', $ptgs->id) }}" onclick="return confirmDelete(event)" class="bg-red-500 rounded py-1 px-2">Hapus</a>
+                                <td class="inline-flex gap-2">
+                                    <x-action-link-button
+                                    route="{{ route('admin.petugas.show', $ptgs->id) }}"
+                                    text="Detail"
+                                    gradient="from-green-500 to-green-700 hover:from-green-600 hover:to-green-800"
+                                    padding="py-1 px-2"
+                                    />
+                                <x-action-link-button
+                                    route="{{ route('admin.petugas.destroy', $ptgs->id) }}"
+                                    text="Hapus"
+                                    gradient="from-red-500 to-red-700 hover:from-red-600 hover:to-red-800"
+                                    padding="py-1 px-2"
+                                />
+                                    {{-- <a href="{{ route('admin.petugas.show', $ptgs->id) }}" class="bg-green-500 rounded py-1 px-2">Detail</a>
+                                    <a href="{{ route('admin.petugas.destroy', $ptgs->id) }}" onclick="return confirmDelete(event)" class="bg-red-500 rounded py-1 px-2">Hapus</a> --}}
                                 </td>
                             </tr>
                             @endforeach
