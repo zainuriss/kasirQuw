@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
@@ -119,5 +121,79 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.petugas.index')->with('success', 'Data petugas berhasil diperbarui!');
+    }
+
+
+    //bagian controller produk
+    public function produkPage(){
+        $produk = Product::all();
+        return view('admin.produk', [
+            'produk' => $produk,
+        ]);
+    }
+
+    
+    //bagian controller kategori
+    public function kategoriPage(){
+        $kategori = Category::all();
+        return view('admin.kategori', [
+            'kategori' => $kategori,
+        ]);
+    }
+
+    public function tambahkategori(Request $request){
+        return view('admin.tambah.tambah-kategori');
+    }
+
+    public function storekategori(Request $request){
+        $request->validate([
+            'nama_kategori' => ['required', 'string', 'max:255'],
+        ]);
+
+        $kategori = Category::create([
+            'nama_kategori' => $request->nama_kategori,
+        ]); 
+
+        return redirect()->route('admin.kategori.index');
+    }
+
+    public function deletekategori($id){
+        $kategori = Category::find($id);
+        $kategori->delete();
+        return redirect()->route('admin.kategori.index');
+    }
+
+    public function kategoritrash(){
+        $kategoritrash = Category::onlyTrashed()->get();
+        return view ('admin.trash.kategori-trash', [
+            'kategoritrash' => $kategoritrash,
+        ]);
+    }
+    
+    public function restorekategori($id){
+        $kategori = Category::onlyTrashed()->where('id', $id)->first();
+        $kategori->restore();
+        return redirect()->route('admin.kategori.trash');
+    }
+
+    public function editkategori($id){
+        $kategori = Category::find($id);
+        return view('admin.edit.edit-kategori', [
+            'kategori' => $kategori,
+        ]);
+    }
+
+    public function updatekategori(Request $request, $id)
+    {
+        $request->validate([
+            'nama_kategori' => ['required', 'string', 'max:255'],
+        ]);
+
+        $kategori = Category::findOrFail($id);
+        $kategori->update([
+            'nama_kategori' => $request->nama_kategori,
+        ]);
+
+        return redirect()->route('admin.kategori.index')->with('success', 'Data kategori berhasil diperbarui!');
     }
 }

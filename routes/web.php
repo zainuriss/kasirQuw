@@ -27,6 +27,21 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::get('/edit/{id}', [AdminController::class, 'editpetugas'])->name('edit'); // Halaman edit petugas
         Route::post('/edit/{id}', [AdminController::class, 'updatepetugas'])->name('update'); // Aksi edit petugas
     });
+
+    Route::prefix('produk')->name('produk.')->group(function () {
+        Route::get('/', [AdminController::class, 'produkPage'])->name('index');
+    });
+
+    Route::prefix('kategori')->name('kategori.')->group(function () {
+        Route::get('/', [AdminController::class, 'kategoriPage'])->name('index');
+        Route::get('/tambah', [AdminController::class, 'tambahkategori'])->name('create');
+        Route::post('/tambah', [AdminController::class, 'storekategori'])->name('store');
+        Route::get('/delete/{id}', [AdminController::class, 'deletekategori'])->name('destroy');
+        Route::get('/trash', [AdminController::class, 'kategoritrash'])->name('trash');
+        Route::get('/restore/{id}', [AdminController::class, 'restorekategori'])->name('restore');
+        Route::get('/edit/{id}', [AdminController::class, 'editkategori'])->name('edit');
+        Route::post('/edit/{id}', [AdminController::class, 'updatekategori'])->name('update');
+    });
 });
 
 

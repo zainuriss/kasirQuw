@@ -22,6 +22,16 @@
                             :active="request()->routeIs('admin.petugas.*')">
                             {{ __('Petugas') }}
                         </x-nav-link>
+                        <x-nav-link 
+                            :href="route('admin.kategori.index')" 
+                            :active="request()->routeIs('admin.kategori.*')">
+                            {{ __('Kategori') }}
+                        </x-nav-link>
+                        <x-nav-link 
+                            :href="route('admin.produk.index')" 
+                            :active="request()->routeIs('admin.produk.*')">
+                            {{ __('Produk') }}
+                        </x-nav-link>
                     @endif
                 </div>
                 

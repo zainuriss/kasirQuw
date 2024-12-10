@@ -14,7 +14,7 @@ class ActionLinkButton extends Component
     public $gradient;
     public $padding;
 
-    public function __construct($route, $icon = null, $text = null, $gradient = 'from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800', $padding = 'py-2 px-4')
+    public function __construct($route = null, $icon = null, $text = null, $gradient = 'from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800', $padding = 'py-2 px-4')
     {
         $this->route = $route;
         $this->icon = $icon;
