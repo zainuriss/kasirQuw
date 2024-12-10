@@ -21,6 +21,7 @@ return new class extends Migration
             $table->smallInteger('stok');
             $table->string('barcode');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

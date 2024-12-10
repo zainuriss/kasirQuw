@@ -30,6 +30,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
     Route::prefix('produk')->name('produk.')->group(function () {
         Route::get('/', [AdminController::class, 'produkPage'])->name('index');
+        Route::get('/detail/{id}', [AdminController::class, 'detailproduk'])->name('show'); // Detail petugas
+        Route::get('/tambah', [AdminController::class, 'tambahproduk'])->name('create');
+        Route::post('/store', [AdminController::class, 'storeproduk'])->name('store');
+        Route::get('/delete/{id}', [AdminController::class, 'deleteproduk'])->name('destroy');
+        Route::get('/trash', [AdminController::class, 'produktrash'])->name('trash');
+        Route::get('/restore/{id}', [AdminController::class, 'restoreproduk'])->name('restore');
+        Route::get('/edit/{id}', [AdminController::class, 'editproduk'])->name('edit');
+        Route::post('/update/{id}', [AdminController::class, 'updateproduk'])->name('update');
+        Route::post('/import', [AdminController::class, 'importProduk'])->name('import');  
+        Route::get('/download-template', [AdminController::class, 'templateProduk'])->name('download-template');
     });
 
     Route::prefix('kategori')->name('kategori.')->group(function () {

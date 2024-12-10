@@ -6,15 +6,16 @@
             </h2>
             <div class="flex flex-row gap-2">
                 <x-action-link-button
-                    route="{{ route('admin.petugas.create') }}"
+                    route="{{ route('admin.produk.create') }}"
                     icon="heroicon-s-plus"
                     text="Tambah"
                 />
                 <x-action-link-button
-                    route="{{ route('admin.petugas.trash') }}"
+                    route="{{ route('admin.produk.trash') }}"
                     icon="gmdi-restore-from-trash-s"
                     gradient="from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800"
                 />
+                @include('admin.import.import-produk')
             </div>
         </div>
     </x-slot>
@@ -39,16 +40,16 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $prdk->nama_produk }}</td>
                                 <td>{{ $prdk->kategori->nama_kategori }}</td>
-                                <td class="capitalize">{{ $prdk->barcode }}</td>
+                                <td>{{ $prdk->barcode }}</td>
                                 <td class="inline-flex gap-2">
                                     <x-action-link-button
-                                    route="{{ route('admin.petugas.show', $prdk->id) }}"
+                                    route="{{ route('admin.produk.show', $prdk->id) }}"
                                     text="Detail"
                                     gradient="from-green-500 to-green-700 hover:from-green-600 hover:to-green-800"
                                     padding="py-1 px-2"
                                     />
                                 <x-action-link-button
-                                    route="{{ route('admin.petugas.destroy', $prdk->id) }}"
+                                    route="{{ route('admin.produk.destroy', $prdk->id) }}"
                                     text="Hapus"
                                     gradient="from-red-500 to-red-700 hover:from-red-600 hover:to-red-800"
                                     padding="py-1 px-2"

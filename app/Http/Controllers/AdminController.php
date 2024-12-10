@@ -6,8 +6,11 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Imports\ProductImport;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Validation\Rules\Password;
 
 class AdminController extends Controller
@@ -123,6 +126,7 @@ class AdminController extends Controller
         return redirect()->route('admin.petugas.index')->with('success', 'Data petugas berhasil diperbarui!');
     }
 
+    
 
     //bagian controller produk
     public function produkPage(){
@@ -132,6 +136,145 @@ class AdminController extends Controller
         ]);
     }
 
+    public function detailproduk($id){
+        $produk = Product::find($id);
+        return view('admin.detail.detail-produk', [
+            'produk' => $produk,
+        ]);
+    }
+
+    public function tambahproduk(Request $request){
+        return view('admin.tambah.tambah-produk');
+    }
+
+    public function storeproduk(Request $request){
+        $request->validate([
+            'nama_produk' => ['required', 'string', 'max:255'],
+            'harga_beli' => ['required'],
+            'harga_jual' => ['required'],
+            'stok' => ['required'],
+            'barcode' => ['required'],
+            'id_category' => ['required'],
+        ]);
+
+        $rawHargaBeli = str_replace(['Rp', '.', ' '], '', $request->harga_beli);
+        $rawHargaJual = str_replace(['Rp', '.', ' '], '', $request->harga_jual);
+
+        $hargaBeli = number_format((float) $rawHargaBeli, 2, '.', '');
+        $hargaJual = number_format((float) $rawHargaJual, 2, '.', '');
+
+
+        $produk = Product::create([
+            'nama_produk' => $request->nama_produk,
+            'harga_beli' => $hargaBeli,
+            'harga_jual' => $hargaJual,
+            'stok' => $request->stok,
+            'barcode' => $request->barcode,
+            'id_category' => $request->id_category,
+        ]); 
+
+        return redirect()->route('admin.produk.index');
+    }
+
+    public function deleteproduk($id){
+        $produk = Product::find($id);
+        $produk->delete();
+        return redirect()->route('admin.produk.index');
+    }
+
+    public function produktrash(){
+        $produktrash = Product::onlyTrashed()->get();
+        return view ('admin.trash.produk-trash', [
+            'produktrash' => $produktrash,
+        ]);
+    }
+    
+    public function restoreproduk($id){
+        $produk = Product::onlyTrashed()->where('id', $id)->first();
+        $produk->restore();
+        return redirect()->route('admin.produk.trash');
+    }
+    
+    public function editproduk($id){
+        $produk = Product::find($id);
+        return view('admin.edit.edit-produk', [
+            'produk' => $produk,
+        ]);
+    }
+
+    public function updateproduk(Request $request, $id)
+    {
+        $request->validate([
+            'nama_produk' => ['required', 'string', 'max:255'],
+            'harga_beli' => ['required'],
+            'harga_jual' => ['required'],
+            'stok' => ['required'],
+            'barcode' => ['required'],
+        ]);
+
+        // Mengolah harga_beli dan harga_jual seperti di storeproduk
+        $rawHargaBeli = str_replace(['Rp', '.', ' '], '', $request->harga_beli);
+        $rawHargaJual = str_replace(['Rp', '.', ' '], '', $request->harga_jual);
+
+        $hargaBeli = number_format((float) $rawHargaBeli, 2, '.', '');
+        $hargaJual = number_format((float) $rawHargaJual, 2, '.', '');
+
+        $produk = Product::findOrFail($id);
+        $produk->update([
+            'nama_produk' => $request->nama_produk,
+            'harga_beli' => $hargaBeli,
+            'harga_jual' => $hargaJual,
+            'stok' => $request->stok,
+            'barcode' => $request->barcode,
+        ]);
+
+        return redirect()->route('admin.produk.index')->with('success', 'Data produk berhasil diperbarui!');
+    }
+
+    public function importProduk(Request $request){
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        // Proses impor file
+        Excel::import(new ProductImport, $request->file('file'));
+
+        return redirect()->route('admin.produk.index')->with('success', 'Data produk berhasil diimpor!');
+    }
+
+    public function templateProduk(){
+        $filePath = public_path('templates/template-produk.xlsx');
+        
+        // Pastikan file ada
+        if (file_exists($filePath)) {
+            return response()->download($filePath);
+        }
+
+        $spreadsheet = IOFactory::load($filePath);
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $dataKategori = Category::get(['id', 'nama_kategori']);
+        $startRowKategori = 2;
+
+        foreach ($dataKategori as $index => $data) {
+            $sheet->setCellValue('H' . ($startRowKategori + $index), $data->id);
+            $sheet->setCellValue('I' . ($startRowKategori + $index), $data->nama_kategori);
+        }
+
+        $tempPath = storage_path('app/public/template/template-produk.xlsx');
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save($tempPath);
+
+        $fileName = 'template-produk.xlsx';
+        $headers = [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ];
+
+        // Return the file as a download response
+        return response()->download($tempPath, $fileName, $headers)->deleteFileAfterSend(true);
+    }
+   
     
     //bagian controller kategori
     public function kategoriPage(){

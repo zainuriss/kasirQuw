@@ -2,7 +2,9 @@
     @if ($label)
         <label for="{{ $name }}">{{ $label }}</label>
     @endif
-    <select name="{{ $name }}" id="{{ $name }}" {{ $attributes->merge(['class' => 'form-control select2'])}} data-placeholder="Pilih {{ $label ?? $name }}">
+    <select name="{{ $name }}" id="{{ $name }}" 
+        {{ $attributes->merge(['class' => 'form-control select2']) }} 
+        data-placeholder="Pilih {{ $label ?? $name }}">
         <option value="" disabled hidden {{ $selected === null ? 'selected' : '' }}>
             Pilih {{ $label ?? $name }}
         </option>
